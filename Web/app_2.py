@@ -145,4 +145,4 @@ def callback_a(dropdown_value):
 
 
 if __name__ == '__main__':
-    app_flask.run(debug=True)
+    app_flask.run(host='0.0.0.0', debug=True)
