@@ -52,25 +52,33 @@ team_names = {'BOS':'Boston Bruins', 'CAR':'Carolina Hurricanes', 'DET':'Detroit
 app_dash.layout = html.Div(style={}, children=[
     
     html.Span(html.A(html.Button('Homepage', className='homepage', style={
-    'backgroundColor': colors['text'],
+    'backgroundColor': '#1D2125',
     'border': 'none',
     'color': 'white',
     'textAlign': 'center',
     'textDecoration': 'none',
     'display': 'block',
-    'fontSize': '16px'}),
+    'fontSize': '20px'}),
     href='/'),
-    style={'backgroundColor': colors['text'], 'padding': '16px', 'display':'block'}
+    style={'backgroundColor': '#1D2125', 'padding': '16px', 'display':'block'}
     ),
 
-    html.H1(
-        children='NHL Goals by Season',
+#    html.H1(
+#        children='NHL Goals by Season',
+#        style={
+#            'textAlign': 'center',
+#            'color':colors['text']
+#        }
+#    ),
+  
+    html.Div(id='output-a',
         style={
             'textAlign': 'center',
-            'color':colors['text']
+            'color':'#1D2125',
+            'font-size':'150%',
+            'margin-top':'45'
         }
     ),
-  
 
     html.Div([
         dcc.Dropdown(
@@ -81,15 +89,6 @@ app_dash.layout = html.Div(style={}, children=[
         ],
         style={'width': '15%', 'margin':'auto', 'display':'block'}),
 
-
-    html.Div(id='output-a',
-        style={
-            'textAlign': 'center',
-            'color':colors['text'],
-            'font-size':'150%',
-            'margin-top':'45'
-        }
-    ),
 
 
     dcc.Graph(id='nhl_goals'),
@@ -141,7 +140,7 @@ def update_figure(selected_team):
     dash.dependencies.Output('output-a', 'children'),
     [dash.dependencies.Input('xaxis-column', 'value')])
 def callback_a(dropdown_value):
-    return '{}'.format(team_names[dropdown_value])
+    return '{} Goals by Season'.format(team_names[dropdown_value])
 
 
 
