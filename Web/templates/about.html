@@ -1,0 +1,28 @@
+{% extends "template.html" %}
+{% block main %}
+<main role="main" class="container">
+    <h1 class="mt-5">About (project name here)</h1>
+    <p class="lead">
+    This project was undertaken to see whether a neural network can learn to predict statistical output 
+    for athletes based on the previous years of their career so far.<br>
+    <br>
+    Unlike traditional statistics, this model does not treat a player's goals as numbers, and then predict
+    based on mathematical trends. Instead, it looks only at the sequence as symbols (as if they were words in a sentence) 
+    and generates the next value based on previous symbols. (Think of it like the way your text messaging app tries to predict
+    words based on what you've typed so far.)<br>
+    The network 'learns' by training itself on sequences of data with a known target value and adjusting itself 
+    according to whether it predicts correctly or not. This particular model used the career of literally every NHL (and WHA) player since
+    1967, when the NHL expanded to 12 teams, totaling about 6,200 players and about 32,000 different predictions for training.
+    </p><br>
+    <p>For more information and better explanation of neural networks, <a href="https://en.wikipedia.org/wiki/Artificial_neural_network">this</a> 
+    wikipedia article is a good place to start.</p>
+    <br>
+    <h4>Hockey-Related Notes</h4>
+    <p>Currently, this model predicts goal output, primarily because the model sees fewer different values in its training data. As it trains,
+    the neural network will assign a probability to every possible value in the training data, so a smaller distribution means the model has 
+    fewer values to worry about.Players generally score between 0-40 goals in a season, meaning the model has fewer values from which to choose 
+    (using total points would roughly double the potential outputs).</p>
+    <p>Back to <a href="/pathname">figures</a> page.</p>
+    <br>
+</main>
+{% endblock main %}
