@@ -1,43 +1,27 @@
 import torch.nn as nn
 
-from .baseRNN import BaseRNN
-
-class EncoderRNN(BaseRNN):
-    r"""
-    Applies a multi-layer RNN to an input sequence.
-
-    Args:
-        vocab_size (int): size of the vocabulary
-        max_len (int): a maximum allowed length for the sequence to be processed
-        hidden_size (int): the number of features in the hidden state `h`
-        input_dropout_p (float, optional): dropout probability for the input sequence (default: 0)
-        dropout_p (float, optional): dropout probability for the output sequence (default: 0)
-        n_layers (int, optional): number of recurrent layers (default: 1)
-        bidirectional (bool, optional): if True, becomes a bidirectional encodr (defulat False)
-        rnn_cell (str, optional): type of RNN cell (default: gru)
-        variable_lengths (bool, optional): if use variable length RNN (default: False)
-
-    Inputs: inputs, input_lengths
-        - **inputs**: list of sequences, whose length is the batch size and within which each sequence is a list of token IDs.
-        - **input_lengths** (list of int, optional): list that contains the lengths of sequences
-            in the mini-batch, it must be provided when using variable length RNN (default: `None`)
-            
-    Outputs: output, hidden
-        - **output** (batch, seq_len, hidden_size): tensor containing the encoded features of the input sequence
-        - **hidden** (num_layers * num_directions, batch, hidden_size): tensor containing the features in the hidden state `h`
-
-    Examples::
-
-         >>> encoder = EncoderRNN(input_vocab, max_seq_length, hidden_size)
-         >>> output, hidden = encoder(input)
-
-    """
+class EncoderRNN(nn.Module):
 
     def __init__(self, vocab_size, age_size, position_size, max_len, 
             hidden_size, input_dropout_p=0, dropout_p=0, n_layers=1, 
             bidirectional=False, rnn_cell='gru', variable_lengths=False):
         super(EncoderRNN, self).__init__(vocab_size, age_size, position_size, 
         max_len, hidden_size, input_dropout_p, dropout_p, n_layers, rnn_cell)
+
+        self.vocab_size = vocab_size
+        self.max_len = max_len
+        self.hidden_size = hidden_size
+        self.n_layers = n_layers
+        self.input_dropout_p = input_dropout_p
+        self.input_dropout = nn.Dropout(p=input_dropout_p)
+        if rnn_cell.lower() == 'lstm':
+            self.rnn_cell = nn.LSTM
+        elif rnn_cell.lower() == 'gru':
+            self.rnn_cell = nn.GRU
+        else:
+            raise ValueError("Unsupported RNN Cell: {0}".format(rnn_cell))
+
+        self.dropout_p = dropout_p
 
         self.variable_lengths = variable_lengths
         self.embedding = nn.Embedding(vocab_size, hidden_size)
@@ -47,18 +31,7 @@ class EncoderRNN(BaseRNN):
                                  batch_first=True, bidirectional=bidirectional, dropout=dropout_p)
 
     def forward(self, input_var, input_ages, input_position, input_lengths=None):
-        """
-        Applies a multi-layer RNN to an input sequence.
-
-        Args:
-            input_var (batch, seq_len): tensor containing the features of the input sequence.
-            input_lengths (list of int, optional): A list that contains the lengths of sequences
-              in the mini-batch
-
-        Returns: output, hidden
-            - **output** (batch, seq_len, hidden_size): variable containing the encoded features of the input sequence
-            - **hidden** (num_layers * num_directions, batch, hidden_size): variable containing the features in the hidden state h
-        """
+       
         input_embedded = self.embedding(input_var)
         age_embedded = self.age_embedding(input_ages)
         position_embedded = self.position_embedding(input_position)
@@ -70,5 +43,4 @@ class EncoderRNN(BaseRNN):
         if self.variable_lengths:
             output, _ = nn.utils.rnn.pad_packed_sequence(output, batch_first=True)
         return output, hidden
-
 
