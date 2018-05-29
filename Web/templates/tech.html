@@ -1,20 +1,21 @@
 {% extends "template.html" %}
 {% block main %}
 <main role="main" class="container">
-    <h1 class="mt-5">About (project name here)</h1>
-    <p class="lead">Description of the <code>technology and libraries</code> that I used.</p>
+    <h1 class="mt-5">HockeyRNN Specs</h1>
+    <br>
+    <p class="lead"></p>
     <h4>For the training/predictions:</h4>
-        <p>LSTM Recurrent Neural Network itself adapted from the IBM sequence-to-sequence framework 
+        <p>LSTM Recurrent Neural Network heavily modified from the IBM sequence-to-sequence framework 
         found <a href="https://github.com/IBM/pytorch-seq2seq">here</a>, written using pytorch.<br>
         Used under the <a href="https://github.com/IBM/pytorch-seq2seq/blob/master/LICENSE">Apache</a> license.<br>
     </p>
     <h4>Data preparation/loading:</h4>
-        <p>Data sourced from <a href="https://www.nhl.com/">NHL.com</a> and <a href="https://www.hockey-reference.com/">hockey-reference.com</a>.<br>
-        Cleaned and prepared for training/prediction using python3 and pandas. Final dataset can be found on 
-        <a href="https://github.com/greg-smith1/hockey_rnn">github</a>, along with source code.</p>
+        <p>Data sourced from <a href="https://www.nhl.com/">NHL.com</a> and <a href="https://www.hockey-reference.com/">hockey-reference.com</a>,
+        and cleaned/prepared for training/prediction using python3, numpy, and pandas. Final dataset can be found on 
+        <a href="https://github.com/greg-smith1/hockey_rnn">github</a>, along with app source code. Full source for the RNN and Jupyter notebooks 
+    for data preparation coming soon.</p>
     <h4>Visualization:</h4>
-    <p>Data visualization created using the Dash library from plotly within a Flask instance.</p>
+    <p>Data visualization created using the Dash library from plotly and Flask.</p>
     <br>
-    <p>Back to <a href="/pathname">figures</a> page.</p>
 </main>
 {% endblock main %}
